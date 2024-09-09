@@ -15,6 +15,10 @@ public class GlobalGameManager : MonoBehaviour
     [SerializeField]
     private GameObject _helpScreen;
     [SerializeField]
+    private GameObject _winScreen;
+    [SerializeField]
+    private GameObject _looseScreen;
+    [SerializeField]
     private GameObject _buttons;
     
     [SerializeField]
@@ -83,9 +87,13 @@ public class GlobalGameManager : MonoBehaviour
         if (level <= _levels.Length)
         {
             Instantiate(_levels[level - 1], _levelHolder.transform);
+            SetBlockCount();
+            SetLives(3);
         }
-        SetBlockCount();
-        SetLives(3);
+        else
+        {
+            _winScreen.SetActive(true);
+        }
     }
 
     private void SetLives(int lives)
@@ -122,7 +130,8 @@ public class GlobalGameManager : MonoBehaviour
         SetLives(_lives - 1);
         if (_lives <= 0)
         {
-            Restart();
+            PauseGame();
+            _looseScreen.gameObject.SetActive(true);
         }
     }
 
